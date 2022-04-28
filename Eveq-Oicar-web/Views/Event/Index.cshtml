@@ -1,0 +1,80 @@
+﻿@model IEnumerable<Eveq_Oicar_web.Models.Event>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>EventList</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location.Street)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location.Coordinates)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TicketPrice)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.Street)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location.Coordinates)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TicketPrice)
+                </td>
+                <td>
+                    <a href="@Url.Action("Create", "Event", new { id = item.IDEvent})" class="btn btn-default"><i class="fa fa-pencil"></i>Edit</a>
+                    <a onclick="Delete(@item.IDEvent)" class="btn"> Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    function Delete(id) {
+     window.location.href = '@Url.Action("Delete","Event")/' + id;
+    }
+</script>
+
