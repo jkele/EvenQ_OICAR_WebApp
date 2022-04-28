@@ -18,6 +18,7 @@ namespace Eveq_Oicar_web.Controllers
         {
             auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyB6-iD9rlVsAQfOZKsmDBVPBlpEFpGrBa0"));
         }
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index()
         {
             var token = HttpContext.Session.GetString("_UserToken");
@@ -30,7 +31,7 @@ namespace Eveq_Oicar_web.Controllers
                 return RedirectToAction("SignIn");
             }
         }
-
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Register()
         {
             return View();
@@ -71,12 +72,13 @@ namespace Eveq_Oicar_web.Controllers
                 return View();
             }
         }
-
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult SignIn()
         {
             return View();
         }
         [HttpPost]
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> SignIn(Login userModel)
         {
             //log in the user
@@ -116,9 +118,11 @@ namespace Eveq_Oicar_web.Controllers
 
             return View();
         }
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult LogOut()
         {
             HttpContext.Session.Remove("_UserToken");
+            
             return RedirectToAction("SignIn");
         }
     }
