@@ -60,7 +60,8 @@ namespace Eveq_Oicar_web.Controllers
 
                     
 
-                    return RedirectToAction("Index");
+                    
+                    return RedirectToAction("Index", "Event", new { area = "" });
                 }
                 else
                 {
@@ -93,7 +94,8 @@ namespace Eveq_Oicar_web.Controllers
                 {
                     HttpContext.Session.SetString("_UserToken", token);
 
-                    return RedirectToAction("Index");
+
+                    return RedirectToAction("Index", "Event", new { area = "" });
                 }
                 else
                 {

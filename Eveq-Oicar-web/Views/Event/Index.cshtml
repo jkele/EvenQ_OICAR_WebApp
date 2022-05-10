@@ -3,6 +3,7 @@
 
 @{
     ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LoginPartial.cshtml";
 }
 
 <h1>EventList</h1>
@@ -40,33 +41,41 @@
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Title)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Description)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Date)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location.City)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location.Street)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Location.Coordinates)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TicketPrice)
-                </td>
-                <td>
-                    <a href="@Url.Action("Create", "Event", new { id = item.IDEvent})" class="btn btn-default"><i class="fa fa-pencil"></i>Edit</a>
-                    <a onclick="Delete(@item.IDEvent)" class="btn"> Delete</a>
-                </td>
-            </tr>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.City)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.Street)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location.Coordinates)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TicketPrice)
+                <label>hrk</label>
+            </td>
+            <td>
+                @{
+                    string imreBase64Data = Convert.ToBase64String(item.PosterImage);
+                    string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                }
+                <img src="@imgDataURL" class="img-responsive" width="250" />
+            </td>
+            <td>
+                <a href="@Url.Action("Create", "Event", new { id = item.IDEvent})" class="btn btn-default"><i class="fa fa-pencil"></i>Edit</a>
+                <a onclick="Delete(@item.IDEvent)" class="btn"> Delete</a>
+            </td>
+        </tr>
         }
     </tbody>
 </table>
