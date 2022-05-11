@@ -15,7 +15,7 @@ namespace Eveq_Oicar_web.Controllers
 {
     public class EventController : Controller
     {
-       
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Index()
         {
             IEnumerable<Event> eventList;
@@ -32,7 +32,7 @@ namespace Eveq_Oicar_web.Controllers
             }
 
         }
-
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public ActionResult Create(int id = 0)
         {
 
@@ -49,7 +49,7 @@ namespace Eveq_Oicar_web.Controllers
           
 
         }
-
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         [HttpPost]
         public ActionResult Create(Event eventm, IFormFile images)
         {
@@ -99,7 +99,7 @@ namespace Eveq_Oicar_web.Controllers
 
             return RedirectToAction("Index");
         }
-
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public ActionResult Delete(int id)
         {
             HttpResponseMessage response = GlobalVariable.WebApiClient.DeleteAsync("Event/" + id.ToString()).Result;

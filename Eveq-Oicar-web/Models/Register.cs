@@ -16,6 +16,8 @@ namespace Eveq_Oicar_web.Models
         [DataType(DataType.Date)]
         public DateTime DateOfBirth { get; set; }
         [Required]
+        public string ReferralCode { get; set; }
+        [Required]
         [EmailAddress]
         public string Email { get; set; }
         [Required]

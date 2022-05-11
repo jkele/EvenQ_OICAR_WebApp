@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Eveq_Oicar_web.Controllers
@@ -41,11 +42,20 @@ namespace Eveq_Oicar_web.Controllers
         {
             //create the user
             await auth.CreateUserWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
-            
+
             //log in the new user
             var fbAuthLink = await auth
                             .SignInWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
             string token = fbAuthLink.FirebaseToken;
+
+            //empty user za dohavacanje UIDa
+            User user = auth.GetUserAsync(token).Result;
+
+            //Upis u bazu
+            Member memberm = new Member(user.LocalId, userModel.FirstName, userModel.LastName, userModel.ReferralCode, false, 0, false);
+
+            HttpResponseMessage response = GlobalVariable.WebApiClient.PostAsJsonAsync("Member", memberm).Result;
+
             await auth.SendEmailVerificationAsync(token);
             if (fbAuthLink.User.IsEmailVerified)
             {
