@@ -25,6 +25,8 @@ namespace Eveq_Oicar_web.Models
         public byte[] PosterImage { get; set; }
 
         [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
         public Location Location { get; set; }

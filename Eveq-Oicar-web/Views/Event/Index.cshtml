@@ -66,10 +66,13 @@
             </td>
             <td>
                 @{
-                    string imreBase64Data = Convert.ToBase64String(item.PosterImage);
-                    string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                    if (item.PosterImage != null)
+                    {
+                        string imreBase64Data = Convert.ToBase64String(item.PosterImage);
+                        string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+                        <img src="@imgDataURL" class="img-responsive" width="250" />
+                    }
                 }
-                <img src="@imgDataURL" class="img-responsive" width="250" />
             </td>
             <td>
                 <a href="@Url.Action("Create", "Event", new { id = item.IDEvent})" class="btn btn-default"><i class="fa fa-pencil"></i>Edit</a>
