@@ -1,0 +1,102 @@
+﻿@model Eveq_Oicar_web.Models.Event
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_LoginPartial.cshtml";
+}
+
+
+
+<div  class="col-md-4 centered" style="border-radius: 5px; margin-top: 2em; overflow: auto;">
+    <div class="form-group text-center" style=" background-color: rgba(0, 0, 0, 0.3);">
+        <div class="form-group" style="margin-top: 10px;">
+
+            @{
+                if (Model.PosterImage != null)
+                {
+                    string imreBase64Data = Convert.ToBase64String(Model.PosterImage);
+                    string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+
+                    <img style="margin-top: 10px;" src="@imgDataURL" width="250" />
+                }
+                else
+                {
+                    <img style="margin-top: 10px;" src="~/img/No_Image_Available.jpg" width="250" />
+                }
+            }
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">Title: </label>
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">  @Html.DisplayFor(model => model.Title) </label>
+            <br />
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">Description: </label>
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">          @Html.DisplayFor(model => model.Description) </label>
+            <br />
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">Date: </label>
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">
+                @{
+                    String date = Model.Date.ToString("dd/MM/yyyy - HH/mm tt") + "h";
+                    @Html.DisplayFor(date => date.Date)
+                }
+
+            </label>
+            <br />
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">City: </label>
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">  @Html.DisplayFor(model => model.Location.City) </label>
+            <br />
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">Street: </label>
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">  @Html.DisplayFor(model => model.Location.Street) </label>
+            <br />
+
+        </div>
+
+        <div class="form-group">
+
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">Coordinates: </label>
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">  @Html.DisplayFor(model => model.Location.Coordinates) </label>
+            <br />
+
+        </div>
+
+
+        <div class="form-group">
+
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">Ticket Price: </label>
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;"> @Html.DisplayFor(model => model.TicketPrice) </label>
+            <label class="control-label with-font" style="font-weight: 800; font-size: large;">€</label>
+            <br />
+
+        </div>
+        <div>
+            <a style="margin-top: 10px; width: 100%;" class="btn btn-light" asp-action="Index">Back to Events list</a>
+        </div>
+        <div>
+            <a style="margin-top: 10px; width: 100%;" class="btn btn-warning" asp-action="Ticket">Buy Ticket to this Event</a>
+        </div>
+    </div>
+    </div>

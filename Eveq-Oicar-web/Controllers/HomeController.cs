@@ -25,13 +25,14 @@ namespace Eveq_Oicar_web.Controllers
             var token = HttpContext.Session.GetString("_UserToken");
             if (token != null)
             {
-                return View();
+                return RedirectToAction("Member");
             }
             else
             {
-                return RedirectToAction("SignIn");
+                return View();
             }
         }
+
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Register()
         {
@@ -95,17 +96,24 @@ namespace Eveq_Oicar_web.Controllers
             //log in the user
             var fbAuthLink = await auth.SignInWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
             string token = fbAuthLink.FirebaseToken;
+            User user = auth.GetUserAsync(token).Result;
+            string uid = user.LocalId;
+            HttpResponseMessage Adminresponse = GlobalVariable.WebApiClient.GetAsync("Member/Admin/" + uid.ToString()).Result;
+            bool Admin = Adminresponse.IsSuccessStatusCode;
             if (!fbAuthLink.User.IsEmailVerified)
             {
 
                 
                 //saving the token in a session variable
-                if (token != null)
+                if ((token != null) && (Admin == false))
                 {
                     HttpContext.Session.SetString("_UserToken", token);
-
-
                     return RedirectToAction("Index", "Event", new { area = "" });
+                }
+                else if ((token != null) && (Admin == true))
+                {
+                    HttpContext.Session.SetString("_UserToken", token);
+                    return RedirectToAction("Index", "Admin", new { area = "" });
                 }
                 else
                 {
@@ -123,13 +131,27 @@ namespace Eveq_Oicar_web.Controllers
             return View();
         }
 
+
         [HttpPost]
         public async Task<IActionResult> ForgotPassword(Login login)
         {
             await auth.SendPasswordResetEmailAsync(login.Email);
 
+            return RedirectToAction("ForgotPasswordSent", "Home", new { area = "" });
+        }
+
+
+        public IActionResult ForgotPasswordSent()
+        {
             return View();
         }
+
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public IActionResult Member()
+        {
+            return View();
+        }
+
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult LogOut()
         {

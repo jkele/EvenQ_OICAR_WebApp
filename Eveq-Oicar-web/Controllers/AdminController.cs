@@ -11,15 +11,15 @@ using System.Threading.Tasks;
 using System.IO;
 using static System.Net.Mime.MediaTypeNames;
 using Firebase.Auth;
+using Newtonsoft.Json;
 
 namespace Eveq_Oicar_web.Controllers
 {
-    public class EventController : Controller
+    public class AdminController : Controller
     {
-
         public FirebaseAuthProvider auth;
 
-        public EventController()
+        public AdminController()
         {
             auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyB6-iD9rlVsAQfOZKsmDBVPBlpEFpGrBa0"));
         }
@@ -28,38 +28,28 @@ namespace Eveq_Oicar_web.Controllers
         public IActionResult Index()
         {
             IEnumerable<Event> eventList;
-            HttpResponseMessage response = GlobalVariable.WebApiClient.GetAsync("Event/UpcomingEvents").Result;
+            HttpResponseMessage response = GlobalVariable.WebApiClient.GetAsync("Event").Result;
             eventList = response.Content.ReadAsAsync<IEnumerable<Event>>().Result;
             var token = HttpContext.Session.GetString("_UserToken");
             if (token != null)
             {
-                return View(eventList);
+                User user = auth.GetUserAsync(token).Result;
+                string uid = user.LocalId;
+                HttpResponseMessage Adminresponse = GlobalVariable.WebApiClient.GetAsync("Member/Admin/" + uid.ToString()).Result;
+                bool Admin = Adminresponse.IsSuccessStatusCode;
+                if (Admin == true)
+                {
+                    return View(eventList);
+                }
+                else
+                {
+                    return RedirectToAction("SignIn", "Home", new { area = "" });
+                }
             }
             else
             {
                 return RedirectToAction("SignIn", "Home", new { area = "" });
             }
-
-        }
-        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
-        public ActionResult Create(int id = 0)
-        {
-            var token = HttpContext.Session.GetString("_UserToken");
-            if (id == 0)
-            {
-                if (token != null)
-                {
-                    return View(new Event());
-                }
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                HttpResponseMessage response = GlobalVariable.WebApiClient.GetAsync("Event/" + id.ToString()).Result;
-                return View(response.Content.ReadAsAsync<Event>().Result);
-            }
-
-          
 
         }
 
@@ -82,13 +72,32 @@ namespace Eveq_Oicar_web.Controllers
             }
 
         }
+        [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
+        public ActionResult Create(int id = 0)
+        {
+            var token = HttpContext.Session.GetString("_UserToken");
+            if (id == 0)
+            {
+                if (token != null)
+                {
+                    return View(new Event());
+                }
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                HttpResponseMessage response = GlobalVariable.WebApiClient.GetAsync("Event/" + id.ToString()).Result;
+                return View(response.Content.ReadAsAsync<Event>().Result);
+            }
 
 
+
+        }
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         [HttpPost]
         public ActionResult Create(Event eventm, IFormFile images)
         {
-    
+            int LocationIdCounter = GlobalVariable.Counter;
             if (eventm.IDEvent == 0) // Create event
             {
                 if (images != null)
@@ -108,7 +117,8 @@ namespace Eveq_Oicar_web.Controllers
                     }
                 }
                 HttpResponseMessage response = GlobalVariable.WebApiClient.PostAsJsonAsync("Event", eventm).Result;
-                response.EnsureSuccessStatusCode();
+                response.EnsureSuccessStatusCode(); 
+
             }
             else // update event
             {
@@ -142,3 +152,4 @@ namespace Eveq_Oicar_web.Controllers
         }
     }
 }
+

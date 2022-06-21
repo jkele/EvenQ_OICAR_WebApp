@@ -11,11 +11,31 @@ namespace Eveq_Oicar_web
     {
         public static HttpClient WebApiClient = new HttpClient();
 
+        private static int _counter = 17;
+        private static readonly object _lockObject = new object();
         static GlobalVariable()
         {
             WebApiClient.BaseAddress = new Uri("https://evenq.azurewebsites.net/api/");
             WebApiClient.DefaultRequestHeaders.Clear();
             WebApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+        }
+
+        public static void Increment()
+        {
+            lock (_lockObject)
+            {
+                _counter++;
+            }
+        }
+        public static int Counter
+        {
+            get
+            {
+                lock (_lockObject)
+                {
+                    return _counter;
+                }
+            }
         }
     }
 }

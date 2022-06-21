@@ -5,46 +5,60 @@
     Layout = "~/Views/Shared/_LoginPartial.cshtml";
 }
 
-<h1>Index</h1>
+<h2 class="with-font text-center " style="font-weight: 800; margin: 5em auto auto auto">Account Info: </h2>
+<div class="col-md-4 centered" style="background-color: rgba(0, 0, 0, 0.3); border-radius: 25px;">
 
-<div>
-    <h4>Member</h4>
-    <hr />
-    <dl class="row">
-        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FirstName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LastName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RefferalCode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RefferalCode)
-        </dd>
-        
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumberOfRefferals)
-        </dt>
-        <dd class = "col-sm-10">
+
+    <div class="form-group text-center" style="margin-top: 10px;">
+
+        <label class="control-label with-font" style="font-weight: 800; font-size: large;">First Name: </label>
+        <label class="control-label with-font" style="font-weight: 800; font-size: large;">  @Html.DisplayFor(model => model.FirstName) </label>
+        <br />
+
+
+        <label class="control-label with-font" style="font-weight: 800; font-size: large;">Last Name: </label>
+        <label class="control-label with-font" style="font-weight: 800; font-size: large;"> @Html.DisplayFor(model => model.LastName) </label>
+        <br />
+
+        <label class="control-label with-font" style="font-weight: 800; font-size: large;">Refferal Code: </label>
+        @{
+            String refferal = Model.RefferalCode;
+            if (refferal != null)
+            {
+                <label class="control-label with-font" style="font-weight: 800; font-size: large;">
+                    @Html.DisplayFor(model => model.RefferalCode)
+                </label>
+                <br />
+
+            }
+            else
+            {
+                <label class="control-label with-font" style="font-weight: 800; font-size: large;">
+                    You don't have a refferal code.
+                </label>
+                <br />
+            }
+        }
+
+
+        <label class="control-label with-font" style="font-weight: 800; font-size: large;">Number of Refferals: </label>
+        <label class="control-label with-font" style="font-weight: 800; font-size: large;">
             @Html.DisplayFor(model => model.NumberOfRefferals)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MembershipValid)
-        </dt>
-        <dd class = "col-sm-10">
+        </label>
+        <br />
+
+        <label class="control-label with-font" style="font-weight: 800; font-size: large;">Membership Valid: </label>
+        <label class="control-label with-font" style="font-weight: 800; font-size: large;">
             @Html.DisplayFor(model => model.MembershipValid)
-        </dd>
-    </dl>
+        </label>
+        <br />
+
+
+    </div>
+
+    <div style="margin-top: 10px; width: 100%;">
+        @Html.ActionLink("Edit", "Edit", new { id = Model.UID }, new { @class = "form-group text-center btn btn-light" });
+    </div>
 </div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new {  id = Model.UID  }) 
-</div>
+
+

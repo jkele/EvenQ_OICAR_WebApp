@@ -7,32 +7,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Eveq_Oicar_web</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="~/css/home_index.css" rel="stylesheet">
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/style.css" />
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">EvenQ</a>
+<body style="background-color: #403A32;">
+    <header style="background-color: #2A2623;">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light">
+            <a class="navbar-brand hvr-grow" asp-area="" asp-controller="Home" asp-action="Index" style="margin:0 auto 0 7em;"> <img width="70" height="50" src="~/logo.png" alt="" title=""></a>
+            <div class="container" style="margin:0 auto 0 auto; width:50em">
+                <a class="navbar-brand with-navfont hvr-grow animatable" style=" color: #fff; font-size: 20px; font-weight: 800;" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                <a class="navbar-brand with-navfontt hvr-grow animatable" style="margin-left: 15px; color: #fff; font-size: 20px; font-weight: 800;" asp-area="" asp-controller="Event" asp-action="Index">Events</a>
+                <a class="navbar-brand with-navfont hvr-grow animatable" style="margin-left: 15px; color: #fff; font-size: 20px; font-weight: 800;" asp-area="" asp-controller="Member" asp-action="Index">Account</a>
+                <a class="navbar-brand with-navfont hvr-grow animatable" style="margin-left: 15px; color: #fff; font-size: 20px; font-weight: 800;" asp-area="" asp-controller="Home" asp-action="LogOut">Logout</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="nav navbar-nav navbar-right">
-                    <ul class="navbar-nav flex-grow-1 ">
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="LogOut">Log out</a>
-                        </li>
-                        <li>
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Member" asp-action="Index">Account</a>
-                        </li>
-                    </ul>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
                 </div>
             </div>
         </nav>
     </header>
     <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
@@ -40,6 +39,7 @@
     <footer class="border-top footer text-muted">
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/main.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

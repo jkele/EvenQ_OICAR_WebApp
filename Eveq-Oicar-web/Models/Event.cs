@@ -25,15 +25,15 @@ namespace Eveq_Oicar_web.Models
         public byte[] PosterImage { get; set; }
 
         [Required]
-        [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(ApplyFormatInEditMode = true, ConvertEmptyStringToNull = false,
+        DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
         public DateTime Date { get; set; }
 
         public Location Location { get; set; }
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Event mora imati id lokacije koja nije 0")]
-        public int LocationId { get; set; }
+        public int? LocationId { get; set; }
 
         [Required]
         [Range(1, int.MaxValue, ErrorMessage = "Odredite cijenu eventa da bude veca od 0")]

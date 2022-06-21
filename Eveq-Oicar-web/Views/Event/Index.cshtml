@@ -6,87 +6,54 @@
     Layout = "~/Views/Shared/_LoginPartial.cshtml";
 }
 
-<h1>EventList</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location.City)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location.Street)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location.Coordinates)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TicketPrice)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location.City)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location.Street)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location.Coordinates)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TicketPrice)
-                <label>hrk</label>
-            </td>
-            <td>
-                @{
-                    if (item.PosterImage != null)
-                    {
-                        string imreBase64Data = Convert.ToBase64String(item.PosterImage);
-                        string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
-                        <img src="@imgDataURL" class="img-responsive" width="250" />
-                    }
-                }
-            </td>
-            <td>
-                <a href="@Url.Action("Create", "Event", new { id = item.IDEvent})" class="btn btn-default"><i class="fa fa-pencil"></i>Edit</a>
-                <a onclick="Delete(@item.IDEvent)" class="btn"> Delete</a>
-            </td>
-        </tr>
-        }
-    </tbody>
-</table>
+<div style="border-radius:5px; float: left;">
+
+    <div class="form-group text-center" style="margin-top: 20px;">
 
 
-<script>
-    function Delete(id) {
-     window.location.href = '@Url.Action("Delete","Event")/' + id;
-    }
-</script>
+        <table style="border-collapse: separate; border-spacing: 0 1em; table-layout: fixed; width: 100%;">
 
+
+            @foreach (var item in Model)
+            {
+                String date = item.Date.ToString("dd/MM/yyyy - HH/mm tt") + "h";
+
+
+
+                <tr style="border-collapse: separate; border-spacing: 5em; background-color: rgba(0, 0, 0, 0.3);">
+                    <td>
+
+                        <label class="control-label with-font" style="margin-top: 10px;">Datum:</label>
+                        <label class="control-label with-font">  @Html.DisplayFor(modelItem => date) </label>
+                        <br />
+
+                        @{
+                            if (item.PosterImage != null)
+                            {
+                                string imreBase64Data = Convert.ToBase64String(item.PosterImage);
+                                string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+
+                                <a class="hvr-grow img-responsive" href="@Url.Action("Details", "Event", new { id = item.IDEvent})"> <img src="@imgDataURL" width="250" /></a>
+                            }
+                            else
+                            {
+                                 <a href="@Url.Action("Details", "Event", new { id = item.IDEvent})"><img class="hvr-grow img-responsive" src="~/img/No_Image_Available.jpg" width="250" /></a>
+                            }
+                        }
+
+                        <br />
+
+                        <label class="control-label with-font" style="margin-top: 10px;">Naziv: </label>
+                        <label class="control-label with-font">  @Html.DisplayFor(modelItem => item.Title) </label>
+                    </td>
+                </tr>
+
+
+            }
+
+
+        </table>
+    </div>
+
+</div>

@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Eveq_Oicar_web.Models.Event>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_LoginPartial.cshtml";
+}
+
+<div class="form-group text-center" style="margin-top: 10px;">
+
+    <p>
+        <a class="btn btn-light" asp-action="Create">Create New Event</a>
+    </p>
+</div>
+    <div style="border-radius:5px; float: left;">
+
+        <div class="form-group text-center" style="margin-top: 20px;">
+
+
+            <table style="border-collapse: separate; border-spacing: 0 1em; table-layout: fixed; width: 100%;">
+
+
+                @foreach (var item in Model)
+                {
+                    String date = item.Date.ToString("dd/MM/yyyy - HH/mm tt") + "h";
+
+
+
+                    <tr style="border-collapse: separate; border-spacing: 5em; background-color: rgba(0, 0, 0, 0.3);">
+                        <td>
+
+                            <label class="control-label with-font" style="margin-top: 10px;">Datum:</label>
+                            <label class="control-label with-font">  @Html.DisplayFor(modelItem => date) </label>
+                            <br />
+
+                            @{
+                                if (item.PosterImage != null)
+                                {
+                                    string imreBase64Data = Convert.ToBase64String(item.PosterImage);
+                                    string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
+
+                                    <a class="hvr-grow img-responsive" href="@Url.Action("Details", "Admin", new { id = item.IDEvent})"> <img src="@imgDataURL" width="250" /></a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Details", "Admin", new { id = item.IDEvent})"><img class="hvr-grow img-responsive" src="~/img/No_Image_Available.jpg" width="250" /></a>
+                                }
+                            }
+
+                            <br />
+
+                            <label class="control-label with-font" style="margin-top: 10px;">Naziv: </label>
+                            <label class="control-label with-font">  @Html.DisplayFor(modelItem => item.Title) </label>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                            <a href="@Url.Action("Create", "Admin", new { id = item.IDEvent})" class="btn btn-light fa fa-pencil"> Edit</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <a onclick="Delete(@item.IDEvent)" class="btn btn-light fa fa-pencil" style="color: white;"> Delete</a>
+                        </td>
+                    </tr>
+
+
+
+                }
+
+
+            </table>
+        </div>
+
+    </div>
+
+
+
+
+    <script>
+    function Delete(id) {
+     window.location.href = '@Url.Action("Delete","Admin")/' + id;
+    }
+    </script>
+
