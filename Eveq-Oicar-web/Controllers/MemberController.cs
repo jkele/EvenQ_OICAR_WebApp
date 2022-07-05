@@ -62,7 +62,7 @@ namespace Eveq_Oicar_web.Controllers
         [HttpPost]
         public ActionResult Edit(Member member)
         {
-            HttpResponseMessage response = GlobalVariable.WebApiClient.PutAsJsonAsync("Member/" + member.UID, member).Result;
+            HttpResponseMessage response = GlobalVariable.WebApiClient.PutAsJsonAsync("Member/Admin/" + member.UID, member).Result;
 
             return RedirectToAction("Index");
         }

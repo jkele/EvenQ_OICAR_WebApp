@@ -61,27 +61,21 @@ namespace Eveq_Oicar_web.Controllers
             if (fbAuthLink.User.IsEmailVerified)
             {
 
-                
-                
-            
                 //saving the token in a session variable
                 if (token != null)
                 {
                     HttpContext.Session.SetString("_UserToken", token);
-
-                    
-
-                    
                     return RedirectToAction("Index", "Event", new { area = "" });
                 }
                 else
                 {
-                    return View();
+                    return View("Member");
                 }
             }
             else
             {
-                return View();
+                TempData["AlertMessage"] = "Registration is successful";
+                return View("Index");
             }
         }
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]

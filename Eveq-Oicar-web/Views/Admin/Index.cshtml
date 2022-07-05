@@ -2,7 +2,7 @@
 
 @{
     ViewData["Title"] = "Index";
-    Layout = "~/Views/Shared/_LoginPartial.cshtml";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
 <div class="form-group text-center" style="margin-top: 10px;">
@@ -55,7 +55,7 @@
 
                     <tr>
                         <td>
-                            <a href="@Url.Action("Create", "Admin", new { id = item.IDEvent})" class="btn btn-light fa fa-pencil"> Edit</a>
+                            <a href="@Url.Action("Edit", "Admin", new { id = item.IDEvent})" class="btn btn-light fa fa-pencil"> Edit</a>
                         </td>
                     </tr>
                     <tr>

@@ -1,0 +1,60 @@
+﻿@model Eveq_Oicar_web.Models.Location
+
+@{
+    ViewData["Title"] = "CreateLocation";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+@{ using (Html.BeginForm())
+        @Html.AntiForgeryToken()
+
+        <div class="form-group text-center" style="margin-top: 4em;">
+            <h1 class="control-label with-font" style="font-weight: 800;">Create location for Event</h1>
+        </div>
+        <div class="col-md-4 centered" style="background-color: rgba(0, 0, 0, 0.3); border-radius: 25px; margin-top: 10px;">
+
+            <br />
+            <form asp-action="CreateLocation">
+
+                <div class="form-group">
+                    <label asp-for="IDLocation" class="control-label with-font" style="font-weight: 800; font-size: large;"></label>
+                    <input asp-for="IDLocation" class="form-control" data-val-required="The event must have a city name" />
+                    <span asp-validation-for="IDLocation" class="text-danger font-weight-bold"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="City" class="control-label with-font" style="font-weight: 800; font-size: large;"></label>
+                    <input asp-for="City" class="form-control" data-val-required="The event must have a city name" />
+                    <span asp-validation-for="City" class="text-danger font-weight-bold"></span>
+                </div>
+
+
+                <div class="form-group">
+                    <label asp-for="Street" class="control-label with-font" style="font-weight: 800; font-size: large;"></label>
+                    <input asp-for="Street" class="form-control" data-val-required="The event must have a street name" />
+                    <span asp-validation-for="Street" class="text-danger font-weight-bold"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Coordinates" class="control-label with-font" style="font-weight: 800; font-size: large;"></label>
+                    <input asp-for="Coordinates" class="form-control" data-val-required="The event must have coordinated" />
+                    <span asp-validation-for="Coordinates" class="text-danger font-weight-bold"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn button" onClick="history.go(-1); return false;" />
+                </div>
+            </form>
+            <div class="form-group text-center">
+                <a href="@Url.Action("Edit", "Admin")" onClick="history.go(-1); return false;" class="btn btn-light control-label with-font" style="font-weight: 800; font-size: large;">Return back to edit Event</a>
+            </div>
+        </div>
+
+}
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
