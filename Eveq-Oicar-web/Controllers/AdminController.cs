@@ -66,7 +66,21 @@ namespace Eveq_Oicar_web.Controllers
                 HttpResponseMessage response = GlobalVariable.WebApiClient.GetAsync("Event/" + id.ToString()).Result;
                 if (token != null)
                 {
-                    return View(response.Content.ReadAsAsync<Event>().Result);
+
+                    Event result = response.Content.ReadAsAsync<Event>().Result;
+
+                    string[] latlng = result.Location.Coordinates.Split(new string[] { "," }, StringSplitOptions.None);
+                    string markers = "[";
+                    markers += "{";
+                    markers += string.Format("'lat': '{0}',", latlng[0].Trim());
+                    markers += "},";
+                    markers += "{";
+                    markers += string.Format("'lng': '{0}'", latlng[1].Trim());
+                    markers += "}";
+                    markers += "];";
+
+                    ViewBag.Marker = markers;
+                    return View(result);
                 }
                 return RedirectToAction("Index");
             }
@@ -201,15 +215,11 @@ namespace Eveq_Oicar_web.Controllers
                 HttpResponseMessage responseLocation = GlobalVariable.WebApiClient.PostAsJsonAsync("Location", location).Result;
                 GlobalVariable.Increment();
                 HttpResponseMessage requestLocation = GlobalVariable.WebApiClient.GetAsync("Location/" + LocationIdCounter.ToString()).Result;
-                var content = requestLocation.Content.ReadAsStringAsync().Result;
-                string jsonString = JsonConvert.SerializeObject(content);
-                var dese = JsonConvert.DeserializeObject<dynamic>(jsonString);
-                location = JsonConvert.DeserializeObject<Location>(dese);
-                eventm.LocationId = location.IDLocation;
-                eventm.Location.IDLocation = location.IDLocation;
+                Location result = requestLocation.Content.ReadAsAsync<Location>().Result;
+                eventm.LocationId = result.IDLocation;
+                eventm.Location.IDLocation = result.IDLocation;
                 HttpResponseMessage response = GlobalVariable.WebApiClient.PostAsJsonAsync("Event", eventm).Result;
                 response.EnsureSuccessStatusCode(); 
-
             }
             else 
             {

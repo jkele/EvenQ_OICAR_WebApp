@@ -11,7 +11,7 @@ namespace Eveq_Oicar_web
     {
         public static HttpClient WebApiClient = new HttpClient();
 
-        private static int _counter = 17;
+        private static int _counter = 19;
         private static readonly object _lockObject = new object();
         static GlobalVariable()
         {

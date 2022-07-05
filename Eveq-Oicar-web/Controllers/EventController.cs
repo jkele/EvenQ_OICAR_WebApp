@@ -76,7 +76,21 @@ namespace Eveq_Oicar_web.Controllers
                 HttpResponseMessage response = GlobalVariable.WebApiClient.GetAsync("Event/" + id.ToString()).Result;
                 if (token != null)
                 {
-                    return View(response.Content.ReadAsAsync<Event>().Result);
+
+                    Event result = response.Content.ReadAsAsync<Event>().Result;
+
+                    string[] latlng = result.Location.Coordinates.Split(new string[] { "," }, StringSplitOptions.None);
+                    string markers = "[";
+                    markers += "{";
+                    markers += string.Format("'lat': '{0}',", latlng[0].Trim());
+                    markers += "},";
+                    markers += "{";
+                    markers += string.Format("'lng': '{0}'", latlng[1].Trim());
+                    markers += "}";
+                    markers += "];";
+
+                    ViewBag.Marker = markers;
+                    return View(result);
                 }
                 return RedirectToAction("Index");
             }

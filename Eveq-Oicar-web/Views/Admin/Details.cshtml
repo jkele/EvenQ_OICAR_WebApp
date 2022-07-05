@@ -5,14 +5,30 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
-@{
-    string[] Coordinates = new string[Model.Location.Coordinates.Length];
+<script>
+    window.onload = initialize;
+    function initialize() {
+        var markers = @Html.Raw(ViewBag.Marker);
 
-    Coordinates = Model.Location.Coordinates.Split(new string[] { "," }, StringSplitOptions.None);
-}
+        var mapOptions = {
+            center: new google.maps.LatLng(markers[0].lat, markers[1].lng),
+            zoom: 10,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map_canvas"),
+            mapOptions);
+        // create a marker
+        var latlng = new google.maps.LatLng(markers[0].lat, markers[1].lng);
+        var marker = new google.maps.Marker({
+            position: latlng,
+            map: map,
+            title: 'Event'
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9vfyy7y8oK63Jqgho7S975nu6oJKT8oM&callback=myMap"></script>
 
-
-<div class="form-group text-center" style="border-radius: 5px; margin-top: 2em; margin-left: 5em; overflow: auto; float: left;">
+<div class="form-group text-center" style="border-radius: 5px; margin-top: 2em; margin-left: 4em; overflow: auto;">
     <div class="form-group text-center" style=" background-color: rgba(0, 0, 0, 0.3);">
         <div class="form-group" style="margin-top: 10px;">
 
@@ -22,11 +38,11 @@
                     string imreBase64Data = Convert.ToBase64String(Model.PosterImage);
                     string imgDataURL = string.Format("data:image/png;base64,{0}", imreBase64Data);
 
-                    <img style="margin-top: 10px;" src="@imgDataURL" width="250" />
+                    <img style="margin-top: 10px;" src="@imgDataURL" width="450" />
                 }
                 else
                 {
-                    <img style="margin-top: 10px;" src="~/img/No_Image_Available.jpg" width="250" />
+                    <img style="margin-top: 10px;" src="~/img/No_Image_Available.jpg" width="450" />
                 }
             }
 
@@ -86,8 +102,7 @@
             <br />
         </div>
 
-        <div class="form-group" style="width: 200px; height: 200px" id="dvMap">
-        </div>
+
 
         <div class="form-group">
 
@@ -97,39 +112,16 @@
             <br />
 
         </div>
-        <div>
-            <a style="margin-top: 10px; width: 100%;" class="btn btn-light" asp-action="Index">Back to Events list</a>
-        </div>
 
+        <div class="form-group" style="margin-top: 1em; margin-bottom: 1em;">
+        <div id="map_canvas" class="text-center" style="width: 640px; height: 480px; margin: auto;"></div>
     </div>
+
+
+    <div>
+        <a style="margin-top: 10px; width: 100%;" class="btn btn-light" asp-action="Index">Back to Events list</a>
+    </div>
+
+</div>
 </div>
 
-
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB9vfyy7y8oK63Jqgho7S975nu6oJKT8oM"></script>
-<script type="text/javascript">
-        var markers = @Html.Raw(Coordinates);
-        window.onload = function () {
-            var mapOptions = {
-                center: new google.maps.LatLng(parseInt(markers[0].lat), parseInt(markers[1].lng)),
-                zoom: 8,
-                mapTypeId: google.maps.MapTypeId.ROADMAP
-            };
-            var infoWindow = new google.maps.InfoWindow();
-            var map = new google.maps.Map(document.getElementById("dvMap"), mapOptions);
-            for (i = 0; i < markers.length; i++) {
-                var data = markers[i]
-                var myLatlng = new google.maps.LatLng(data.lat, data.lng);
-                var marker = new google.maps.Marker({
-                    position: myLatlng,
-                    map: map,
-                    title: data.title
-                });
-                (function (marker, data) {
-                    google.maps.event.addListener(marker, "click", function (e) {
-                        infoWindow.setContent(data.description);
-                        infoWindow.open(map, marker);
-                    });
-                })(marker, data);
-            }
-        }
-</script>
