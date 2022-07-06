@@ -67,5 +67,37 @@ namespace Eveq_Oicar_web.Controllers
             return RedirectToAction("Index");
         }
 
+        public ActionResult RedirectToDelete()
+        {
+            var token = HttpContext.Session.GetString("_UserToken");
+            User user = auth.GetUserAsync(token).Result;
+            string id = user.LocalId;
+            if (token != null)
+            {
+                HttpResponseMessage response = GlobalVariable.WebApiClient.GetAsync("Member/" + id).Result;
+
+                return View(response.Content.ReadAsAsync<Member>().Result);
+            }
+            else
+            {
+                return RedirectToAction("SignIn", "Home", new { area = "" });
+            }
+
+        }
+
+        public IActionResult Delete()
+        {
+            return View();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete(Member member)
+        {
+            HttpResponseMessage response = GlobalVariable.WebApiClient.DeleteAsync("Member/" + member.UID).Result;
+            response.EnsureSuccessStatusCode();
+
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }

@@ -124,7 +124,8 @@
             <a style="margin-top: 10px; width: 100%;" class="btn btn-light" asp-action="Index">Back to Events list</a>
         </div>
         <div>
-            <a style="margin-top: 10px; width: 100%;" class="btn btn-warning" asp-action="Ticket">Buy Ticket to this Event</a>
+            
+            <a href="@Url.Action("IndexTicket", "Payment")" style="margin-top: 10px; width: 100%;" class="btn btn-warning">Buy Ticket to this Event</a>
         </div>
     </div>
 </div>
