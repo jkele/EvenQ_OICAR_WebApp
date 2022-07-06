@@ -87,36 +87,47 @@ namespace Eveq_Oicar_web.Controllers
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public async Task<IActionResult> SignIn(Login userModel)
         {
-            //log in the user
-            var fbAuthLink = await auth.SignInWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
-            string token = fbAuthLink.FirebaseToken;
-            User user = auth.GetUserAsync(token).Result;
-            string uid = user.LocalId;
-            HttpResponseMessage Adminresponse = GlobalVariable.WebApiClient.GetAsync("Member/Admin/" + uid.ToString()).Result;
-            bool Admin = Adminresponse.IsSuccessStatusCode;
-            if (!fbAuthLink.User.IsEmailVerified)
+            try
             {
+            
+                //log in the user
+                var fbAuthLink = await auth.SignInWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
+                string token = fbAuthLink.FirebaseToken;
+                User user = auth.GetUserAsync(token).Result;
+                string uid = user.LocalId;
+                HttpResponseMessage Adminresponse = GlobalVariable.WebApiClient.GetAsync("Member/Admin/" + uid.ToString()).Result;
+                bool Admin = Adminresponse.IsSuccessStatusCode;
+                if (!fbAuthLink.User.IsEmailVerified)
+                {
 
                 
-                //saving the token in a session variable
-                if ((token != null) && (Admin == false))
-                {
-                    HttpContext.Session.SetString("_UserToken", token);
-                    return RedirectToAction("Index", "Event", new { area = "" });
-                }
-                else if ((token != null) && (Admin == true))
-                {
-                    HttpContext.Session.SetString("_UserToken", token);
-                    return RedirectToAction("Index", "Admin", new { area = "" });
+                    //saving the token in a session variable
+                    if ((token != null) && (Admin == false))
+                    {
+                        HttpContext.Session.SetString("_UserToken", token);
+                        return RedirectToAction("Index", "Event", new { area = "" });
+                    }
+                    else if ((token != null) && (Admin == true))
+                    {
+                        HttpContext.Session.SetString("_UserToken", token);
+                        return RedirectToAction("Index", "Admin", new { area = "" });
+                    }
+                    else
+                    {
+                        return View();
+                    }
                 }
                 else
                 {
-                    return View();
+                    
+                    return RedirectToAction("Index");
                 }
+
             }
-            else
+            catch (Exception)
             {
-                return RedirectToAction("Index");
+                
+                return RedirectToAction("SignIn", "Home", new { area = "" });
             }
         }
 
