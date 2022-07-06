@@ -45,6 +45,7 @@ namespace Eveq_Oicar_web
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
+
             app.UseRouting();
 
             app.UseAuthorization();
