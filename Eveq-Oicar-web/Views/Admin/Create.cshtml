@@ -39,14 +39,14 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="Location.Long" class="control-label with-font" style="font-weight: 800; font-size: large;"></label>
-                <input asp-for="Location.Long" class="form-control" data-val-required="The long must have a coordinate " />
+                <label class="control-label with-font" style="font-weight: 800; font-size: large;">Longitude Coordinate:</label>
+                <input asp-for="Location.Long" class="form-control" data-val-required="The long must have a coordinate "  style="width: 50em; margin: auto;" />
                 <span asp-validation-for="Location.Long" class="text-danger font-weight-bold"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="Location.Lat" class="control-label with-font" style="font-weight: 800; font-size: large;"></label>
-                <input asp-for="Location.Lat" class="form-control" data-val-required="The lang must have a coordinate" />
+                <label class="control-label with-font" style="font-weight: 800; font-size: large;">Latitude Coordinate:</label>
+                <input asp-for="Location.Lat" class="form-control" data-val-required="The lang must have a coordinate"  style="width: 50em; margin: auto;" />
                 <span asp-validation-for="Location.Lat" class="text-danger font-weight-bold"></span>
             </div>
 
