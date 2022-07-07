@@ -11,7 +11,7 @@ namespace Eveq_Oicar_web
     {
         public static HttpClient WebApiClient = new HttpClient();
 
-        private static int _counter = 22;
+     
         private static readonly object _lockObject = new object();
         static GlobalVariable()
         {
@@ -20,22 +20,6 @@ namespace Eveq_Oicar_web
             WebApiClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
         }
 
-        public static void Increment()
-        {
-            lock (_lockObject)
-            {
-                _counter++;
-            }
-        }
-        public static int Counter
-        {
-            get
-            {
-                lock (_lockObject)
-                {
-                    return _counter;
-                }
-            }
-        }
+ 
     }
 }

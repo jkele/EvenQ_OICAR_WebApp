@@ -115,7 +115,7 @@ namespace Eveq_Oicar_web.Controllers
         [HttpPost]
         public ActionResult CreateLocation(Location location)
         {
-            if (location.IDLocation == 0) 
+            if (location.IDLocation == 0)
             {
                 location.Coordinates = location.Lat + ", " + location.Long;
                 HttpResponseMessage response = GlobalVariable.WebApiClient.PostAsJsonAsync("Location", location).Result;
@@ -131,8 +131,8 @@ namespace Eveq_Oicar_web.Controllers
             return View();
 
         }
-        
-      
+
+
 
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public ActionResult Edit(int id = 0)
@@ -150,23 +150,23 @@ namespace Eveq_Oicar_web.Controllers
         [HttpPost]
         public ActionResult Edit(Event eventm, IFormFile images)
         {
-                if (images != null)
+            if (images != null)
+            {
+                if (images.Length > 0)
+
                 {
-                    if (images.Length > 0)
-
+                    byte[] p1 = null;
+                    using (var fs1 = images.OpenReadStream())
+                    using (var ms1 = new MemoryStream())
                     {
-                        byte[] p1 = null;
-                        using (var fs1 = images.OpenReadStream())
-                        using (var ms1 = new MemoryStream())
-                        {
-                            fs1.CopyTo(ms1);
-                            p1 = ms1.ToArray();
-                        }
-                        eventm.PosterImage = p1;
-
+                        fs1.CopyTo(ms1);
+                        p1 = ms1.ToArray();
                     }
+                    eventm.PosterImage = p1;
+
                 }
-                HttpResponseMessage response = GlobalVariable.WebApiClient.PutAsJsonAsync("Event/" + eventm.IDEvent, eventm).Result;
+            }
+            HttpResponseMessage response = GlobalVariable.WebApiClient.PutAsJsonAsync("Event/" + eventm.IDEvent, eventm).Result;
 
             return RedirectToAction("Index");
         }
@@ -199,7 +199,7 @@ namespace Eveq_Oicar_web.Controllers
         [HttpPost]
         public ActionResult Create(Event eventm, IFormFile images)
         {
-            int LocationIdCounter = GlobalVariable.Counter;
+           
             if (eventm.IDEvent == 0) // Create event
             {
                 if (images != null)
@@ -218,17 +218,17 @@ namespace Eveq_Oicar_web.Controllers
 
                     }
                 }
-                Location location = new Location { City = eventm.Location.City, Street = eventm.Location.Street, Coordinates = eventm.Location.Long + ", " + eventm.Location.Lat};
+                Location location = new Location { City = eventm.Location.City, Street = eventm.Location.Street, Coordinates = eventm.Location.Long + ", " + eventm.Location.Lat };
                 HttpResponseMessage responseLocation = GlobalVariable.WebApiClient.PostAsJsonAsync("Location", location).Result;
-                GlobalVariable.Increment();
-                HttpResponseMessage requestLocation = GlobalVariable.WebApiClient.GetAsync("Location/" + LocationIdCounter.ToString()).Result;
+                var idloc = responseLocation.Content.ReadAsAsync<Location>().Result.IDLocation;
+                HttpResponseMessage requestLocation = GlobalVariable.WebApiClient.GetAsync("Location/" + idloc).Result;
                 Location result = requestLocation.Content.ReadAsAsync<Location>().Result;
                 eventm.LocationId = result.IDLocation;
                 eventm.Location.IDLocation = result.IDLocation;
                 HttpResponseMessage response = GlobalVariable.WebApiClient.PostAsJsonAsync("Event", eventm).Result;
-                response.EnsureSuccessStatusCode(); 
+                response.EnsureSuccessStatusCode();
             }
-            else 
+            else
             {
                 if (images != null)
                 {
