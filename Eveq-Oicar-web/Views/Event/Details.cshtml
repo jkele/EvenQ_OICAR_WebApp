@@ -126,7 +126,7 @@
         </div>
         <div>
 
-            <a href="@Url.Action("IndexTicket", "Payment", new { id = Model.IDEvent })" style="margin-top: 10px; width: 100%;" class="btn btn-warning">Buy Ticket to this Event</a>
+            <a href="@Url.Action("IndexTicket", "Payment", new { id = Model.IDEvent, ticketPrice = Model.TicketPrice })" style="margin-top: 10px; width: 100%;" class="btn btn-warning">Buy Ticket to this Event</a>
         </div>
     </div>
 </div>

@@ -14,7 +14,9 @@ namespace Eveq_Oicar_web.Controllers
 {
     public class HomeController : Controller
     {
+
         public FirebaseAuthProvider auth;
+        private static Random random = new Random();
         public HomeController()
         {
             auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyB6-iD9rlVsAQfOZKsmDBVPBlpEFpGrBa0"));
@@ -36,11 +38,18 @@ namespace Eveq_Oicar_web.Controllers
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Register()
         {
+
             return View();
         }
         [HttpPost]
         public async Task<IActionResult> Register(Register userModel)
         {
+            HttpResponseMessage responseCheck = GlobalVariable.WebApiClient.GetAsync("Member/check/" + userModel.ReferralCode).Result;
+            if (responseCheck.IsSuccessStatusCode)
+            {
+
+            
+            int length = 5;
             //create the user
             await auth.CreateUserWithEmailAndPasswordAsync(userModel.Email, userModel.Password);
 
@@ -52,14 +61,15 @@ namespace Eveq_Oicar_web.Controllers
             //empty user za dohavacanje UIDa
             User user = auth.GetUserAsync(token).Result;
 
+            var chars = Enumerable.Range(0, length)
+                .Select(x => user.LocalId[random.Next(0, user.LocalId.Length)]);
+    
             //Upis u bazu
-            Member memberm = new Member(user.LocalId, userModel.FirstName, userModel.LastName, userModel.ReferralCode, false, 5, true);
+            Member memberm = new Member(user.LocalId, userModel.FirstName, userModel.LastName, new string(chars.ToArray()).ToUpper(), false, 5, true);
 
             HttpResponseMessage response = GlobalVariable.WebApiClient.PostAsJsonAsync("Member", memberm).Result;
 
-            await auth.SendEmailVerificationAsync(token);
-            if (fbAuthLink.User.IsEmailVerified)
-            {
+   
 
                 //saving the token in a session variable
                 if (token != null)
@@ -69,15 +79,18 @@ namespace Eveq_Oicar_web.Controllers
                 }
                 else
                 {
+                    TempData["AlertMessage"] = "Registration is complete!";
                     return View("Member");
+                    
                 }
             }
             else
             {
-                TempData["AlertMessage"] = "Registration is successful";
+                TempData["AlertMessage"] = "Failed due to refferal code";
                 return View("Index");
             }
         }
+
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult SignIn()
         {
@@ -97,10 +110,8 @@ namespace Eveq_Oicar_web.Controllers
                 string uid = user.LocalId;
                 HttpResponseMessage Adminresponse = GlobalVariable.WebApiClient.GetAsync("Member/Admin/" + uid.ToString()).Result;
                 bool Admin = Adminresponse.IsSuccessStatusCode;
-                if (!fbAuthLink.User.IsEmailVerified)
-                {
+                    
 
-                
                     //saving the token in a session variable
                     if ((token != null) && (Admin == false))
                     {
@@ -114,15 +125,8 @@ namespace Eveq_Oicar_web.Controllers
                     }
                     else
                     {
-                        return View();
+                        return RedirectToAction("Index");
                     }
-                }
-                else
-                {
-                    
-                    return RedirectToAction("Index");
-                }
-
             }
             catch (Exception)
             {

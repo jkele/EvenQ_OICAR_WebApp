@@ -20,8 +20,9 @@ namespace Eveq_Oicar_web.Controllers
             auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyB6-iD9rlVsAQfOZKsmDBVPBlpEFpGrBa0"));
         }
 
-        public IActionResult IndexTicket(int id)
+        public IActionResult IndexTicket(int id, int ticketPrice)
         {
+            ViewBag.TicketPrice = ticketPrice;
             var token = HttpContext.Session.GetString("_UserToken");
             ViewBag.EventId = id;
 

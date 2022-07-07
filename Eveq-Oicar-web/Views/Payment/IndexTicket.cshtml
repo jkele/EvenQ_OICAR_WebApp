@@ -4,6 +4,7 @@
     ViewData["Title"] = "IndexTicket";
     Layout = "~/Views/Shared/_LoginPartial.cshtml";
     var id = ViewBag.EventId;
+    var ticketPrice = ViewBag.TicketPrice;
 }
 
 
@@ -15,13 +16,14 @@
     <script src="https://www.paypal.com/sdk/js?client-id=AXqPAyW7dw2NGiT9Z_6dP-bQsOS_yxAy90J6T5QRJKpy76eiCFzYkpr1_cRYCOsdQfFe7zv3_e_YB6QK&currency=USD"></script>
     <!-- Set up a container element for the button -->
     <script>
+        var ticketPrice = @ticketPrice
         paypal.Buttons({
             // Sets up the transaction when a payment button is clicked
             createOrder: (data, actions) => {
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: '1'
+                            value: ticketPrice
                         }
                     }]
                 });
@@ -42,3 +44,4 @@
 
         }).render('#paypal-button-container');
     </script>
+
