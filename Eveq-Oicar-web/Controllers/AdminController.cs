@@ -102,7 +102,11 @@ namespace Eveq_Oicar_web.Controllers
             else
             {
                 HttpResponseMessage response = GlobalVariable.WebApiClient.GetAsync("Location/" + id.ToString()).Result;
-                return View(response.Content.ReadAsAsync<Location>().Result);
+                Location location = response.Content.ReadAsAsync<Location>().Result;
+                string[] latlng = location.Coordinates.Split(new string[] { "," }, StringSplitOptions.None);
+                location.Lat = latlng[0];
+                location.Long = latlng[1];
+                return View(location);
             }
 
         }
@@ -113,12 +117,15 @@ namespace Eveq_Oicar_web.Controllers
         {
             if (location.IDLocation == 0) 
             {
+                location.Coordinates = location.Lat + ", " + location.Long;
                 HttpResponseMessage response = GlobalVariable.WebApiClient.PostAsJsonAsync("Location", location).Result;
                 response.EnsureSuccessStatusCode();
             }
             else
             {
+                location.Coordinates = location.Lat + ", " + location.Long;
                 HttpResponseMessage response = GlobalVariable.WebApiClient.PutAsJsonAsync("Location/" + location.IDLocation, location).Result;
+                TempData["AlertMessage"] = "Sumbit is successful";
             }
 
             return View();
@@ -211,7 +218,7 @@ namespace Eveq_Oicar_web.Controllers
 
                     }
                 }
-                Location location = new Location { City = eventm.Location.City, Street = eventm.Location.Street, Coordinates = eventm.Location.Coordinates };
+                Location location = new Location { City = eventm.Location.City, Street = eventm.Location.Street, Coordinates = eventm.Location.Long + ", " + eventm.Location.Lat};
                 HttpResponseMessage responseLocation = GlobalVariable.WebApiClient.PostAsJsonAsync("Location", location).Result;
                 GlobalVariable.Increment();
                 HttpResponseMessage requestLocation = GlobalVariable.WebApiClient.GetAsync("Location/" + LocationIdCounter.ToString()).Result;

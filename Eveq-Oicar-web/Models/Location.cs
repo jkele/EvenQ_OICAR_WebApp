@@ -24,5 +24,12 @@ namespace Eveq_Oicar_web.Models
 
         [Required]
         public string Coordinates { get; set; }
+
+        [Required]
+        public string Long { get; set; }
+
+        [Required]
+        public string Lat { get; set; }
+
     }
 }

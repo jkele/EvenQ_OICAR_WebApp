@@ -6,18 +6,14 @@
 }
 
 
-
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-    <!-- Replace "test" with your own sandbox Business account app client ID -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AXqPAyW7dw2NGiT9Z_6dP-bQsOS_yxAy90J6T5QRJKpy76eiCFzYkpr1_cRYCOsdQfFe7zv3_e_YB6QK&currency=USD"></script>
-    <!-- Set up a container element for the button -->
+<div class="form-group" style="text-align: center; background-color: rgba(0, 0, 0, 0.3); border-radius: 25px; margin-top: 1em; ">
     <div id="paypal-button-container"></div>
-    <script>
+</div>
+<!-- Replace "test" with your own sandbox Business account app client ID -->
+<script src="https://www.paypal.com/sdk/js?client-id=AXqPAyW7dw2NGiT9Z_6dP-bQsOS_yxAy90J6T5QRJKpy76eiCFzYkpr1_cRYCOsdQfFe7zv3_e_YB6QK&currency=USD"></script>
+<!-- Set up a container element for the button -->
+
+<script>
         paypal.Buttons({
             // Sets up the transaction when a payment button is clicked
             createOrder: (data, actions) => {
@@ -44,8 +40,9 @@
             }
 
         }).render('#paypal-button-container');
-    </script>
-</body>
-</html>
+</script>
+
+
+
 
 

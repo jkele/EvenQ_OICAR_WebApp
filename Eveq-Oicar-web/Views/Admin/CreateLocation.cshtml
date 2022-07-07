@@ -13,7 +13,7 @@
         <div class="form-group text-center" style="margin-top: 4em;">
             <h1 class="control-label with-font" style="font-weight: 800;">Create location for Event</h1>
         </div>
-        <div class="col-md-4 centered" style="background-color: rgba(0, 0, 0, 0.3); border-radius: 25px; margin-top: 10px;">
+        <div class="col-md-4 centered" style="background-color: rgba(0, 0, 0, 0.3); border-radius: 25px; margin-top: 3em;">
 
             <br />
             <form asp-action="CreateLocation">
@@ -39,20 +39,37 @@
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="Coordinates" class="control-label with-font" style="font-weight: 800; font-size: large;"></label>
-                    <input asp-for="Coordinates" class="form-control" data-val-required="The event must have coordinated" />
-                    <span asp-validation-for="Coordinates" class="text-danger font-weight-bold"></span>
+                    <label asp-for="Long" class="control-label with-font" style="font-weight: 800; font-size: large;"></label>
+                    <input asp-for="Long" class="form-control" data-val-required="The long must have a coordinate " />
+                    <span asp-validation-for="Long" class="text-danger font-weight-bold"></span>
                 </div>
+
                 <div class="form-group">
-                    <input type="submit" value="Submit" class="btn button" onClick="history.go(-1); return false;" />
+                    <label asp-for="Lat" class="control-label with-font" style="font-weight: 800; font-size: large;"></label>
+                    <input asp-for="Lat" class="form-control" data-val-required="The lang must have a coordinate" />
+                    <span asp-validation-for="Lat" class="text-danger font-weight-bold"></span>
+                </div>
+
+                <div class="form-group">
+                    <input type="submit" value="Submit" class="btn button" />
                 </div>
             </form>
             <div class="form-group text-center">
-                <a href="@Url.Action("Edit", "Admin")" onClick="history.go(-1); return false;" class="btn btn-light control-label with-font" style="font-weight: 800; font-size: large;">Return back to edit Event</a>
+                <a href="@Url.Action("Edit", "Admin")" onClick="history.go(-2); return false;" class="btn btn-light control-label with-font" style="font-weight: 800; font-size: large;">Return back to Events</a>
             </div>
         </div>
 
 }
+
+@{
+    var message = TempData["AlertMessage"] ?? string.Empty;
+}
+
+<script type="text/javascript">
+    var message = '@message';
+    if(message)
+        alert(message);
+</script>
 
 
 @section Scripts {

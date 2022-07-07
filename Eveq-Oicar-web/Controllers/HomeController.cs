@@ -53,7 +53,7 @@ namespace Eveq_Oicar_web.Controllers
             User user = auth.GetUserAsync(token).Result;
 
             //Upis u bazu
-            Member memberm = new Member(user.LocalId, userModel.FirstName, userModel.LastName, userModel.ReferralCode, false, 0, false);
+            Member memberm = new Member(user.LocalId, userModel.FirstName, userModel.LastName, userModel.ReferralCode, false, 5, true);
 
             HttpResponseMessage response = GlobalVariable.WebApiClient.PostAsJsonAsync("Member", memberm).Result;
 
