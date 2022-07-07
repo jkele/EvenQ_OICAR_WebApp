@@ -66,6 +66,7 @@ namespace Eveq_Oicar_web.Controllers
         [ResponseCache(Location = ResponseCacheLocation.None, NoStore = true)]
         public ActionResult Details(int id = 0)
         {
+
             var token = HttpContext.Session.GetString("_UserToken");
             if (id == 0)
             {
@@ -88,7 +89,6 @@ namespace Eveq_Oicar_web.Controllers
                     markers += string.Format("'lng': '{0}'", latlng[1].Trim());
                     markers += "}";
                     markers += "];";
-
                     ViewBag.Marker = markers;
                     return View(result);
                 }

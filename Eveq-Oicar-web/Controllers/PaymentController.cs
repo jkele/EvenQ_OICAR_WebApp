@@ -20,10 +20,10 @@ namespace Eveq_Oicar_web.Controllers
             auth = new FirebaseAuthProvider(new FirebaseConfig("AIzaSyB6-iD9rlVsAQfOZKsmDBVPBlpEFpGrBa0"));
         }
 
-        public IActionResult IndexTicket(Event @event)
+        public IActionResult IndexTicket(int id)
         {
             var token = HttpContext.Session.GetString("_UserToken");
-
+            ViewBag.EventId = id;
 
             User user = auth.GetUserAsync(token).Result;
             string uid = user.LocalId;
@@ -52,12 +52,12 @@ namespace Eveq_Oicar_web.Controllers
             
             if (token != null && DateTime.Compare(timer, DateTime.Now) > 0)
             {
-                return View(@event);
+                return View(id);
             }
             else if (token != null)
             {
                 //return RedirectToAction("Index", "Event");
-                return View(@event);
+                return View(id);
             }
             else
             {
