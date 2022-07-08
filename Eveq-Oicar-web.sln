@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.32106.194
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eveq-Oicar-web", "Eveq-Oicar-web\Eveq-Oicar-web.csproj", "{9F95287C-0781-43CA-9BB2-9969304EA042}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Eveq-Oicar-web", "Eveq-Oicar-web\Eveq-Oicar-web.csproj", "{9F95287C-0781-43CA-9BB2-9969304EA042}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{9E22F0E2-FA1E-412C-8A63-A506ED866BB4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{9F95287C-0781-43CA-9BB2-9969304EA042}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F95287C-0781-43CA-9BB2-9969304EA042}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F95287C-0781-43CA-9BB2-9969304EA042}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E22F0E2-FA1E-412C-8A63-A506ED866BB4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E22F0E2-FA1E-412C-8A63-A506ED866BB4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E22F0E2-FA1E-412C-8A63-A506ED866BB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E22F0E2-FA1E-412C-8A63-A506ED866BB4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
